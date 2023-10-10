@@ -1,9 +1,9 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { v4 as uuidv4 } from 'uuid';
 
-const rawDynamoClient = new DynamoDBClient({ region: 'ap-southeast2'});
+const rawDynamoClient = new DynamoDBClient({ region: 'ap-southeast-2' });
 
 const dynamoClient = DynamoDBDocumentClient.from(rawDynamoClient);
 
@@ -17,7 +17,7 @@ module.exports.create = async (event: APIGatewayProxyEvent) => {
 
       return {
         statusCode: 400,
-        body: 'Data wasn\'t a valid string'
+        body: 'Text wasn\'t a valid string'
       };
     }
 
@@ -35,7 +35,7 @@ module.exports.create = async (event: APIGatewayProxyEvent) => {
       }
     };
 
-    await dynamoClient.send(new UpdateCommand(params));
+    await dynamoClient.send(new PutCommand(params));
 
     return {
       statusCode: 200,

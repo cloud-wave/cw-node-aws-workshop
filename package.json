@@ -8,8 +8,8 @@
     "watch": "tsc -w",
     "lint": "tslint '*.ts'",
     "build": "tsc",
-    "deploy": "AWS_PROFILE=workshop-service-user sls deploy",
-    "start": "yarn watch & AWS_PROFILE=workshop-service-user sls offline"
+    "deploy": "WHOAMI=$(whoami) AWS_PROFILE=workshop-service-user sls deploy",
+    "start": "yarn watch & WHOAMI=$(whoami) AWS_PROFILE=workshop-service-user sls offline --reloadHandler"
   },
   "keywords": [],
   "author": "",
