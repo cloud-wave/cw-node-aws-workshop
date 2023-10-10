@@ -23,14 +23,14 @@ provider:
 plugins:
   - serverless-offline
 functions:
-  create:
-    name: "${env:WHOAMI}-todos-create"
-    handler: todos/create.create
-    events:
-      - http:
-          path: todos
-          method: post
-          cors: true
+#  create:
+#    name: "${env:WHOAMI}-todos-create"
+#    handler: todos/create.create
+#    events:
+#      - http:
+#          path: todos
+#          method: post
+#          cors: true
 
   list:
     name: "${env:WHOAMI}-todos-list"
@@ -41,14 +41,14 @@ functions:
           method: get
           cors: true
 
-  update:
-    name: "${env:WHOAMI}-todos-update"
-    handler: todos/update.update
-    events:
-      - http:
-          path: todos/{id}
-          method: put
-          cors: true
+#  update:
+#    name: "${env:WHOAMI}-todos-update"
+#    handler: todos/update.update
+#    events:
+#      - http:
+#          path: todos/{id}
+#          method: put
+#          cors: true
 
 resources:
   Resources:
