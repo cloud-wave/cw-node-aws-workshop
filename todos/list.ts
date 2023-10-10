@@ -1,0 +1,29 @@
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { APIGatewayProxyEvent } from 'aws-lambda';
+
+const rawDynamoClient = new DynamoDBClient({ region: 'ap-southeast2'});
+
+const dynamoClient = DynamoDBDocumentClient.from(rawDynamoClient);
+
+module.exports.list = async (event: APIGatewayProxyEvent) => {
+  try {
+    const queryParams = new QueryCommand({
+      TableName: process.env.DYNAMODB_TABLE
+    });
+
+    const resp = await dynamoClient.send(queryParams);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(resp.Items)
+    };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      statusCode: 500,
+      body: e.toString()
+    };
+  }
+};
