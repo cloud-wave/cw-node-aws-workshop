@@ -7,7 +7,7 @@ provider:
   runtime: nodejs18.x
   region: ap-southeast-2
   environment:
-    DYNAMODB_TABLE: ${self:service}
+    DYNAMODB_TABLE: "${env:WHOAMI}-${self:service}"
   iam:
     role:
       statements:
@@ -19,11 +19,12 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 plugins:
   - serverless-offline
 functions:
   create:
+    name: "${env:WHOAMI}-todos-create"
     handler: todos/create.create
     events:
       - http:
@@ -32,6 +33,7 @@ functions:
           cors: true
 
   list:
+    name: "${env:WHOAMI}-todos-list"
     handler: todos/list.list
     events:
       - http:
@@ -40,12 +42,13 @@ functions:
           cors: true
 
   update:
+    name: "${env:WHOAMI}-todos-update"
     handler: todos/update.update
     events:
       - http:
           path: todos/{id}
           method: put
-          cors: true        
+          cors: true
 
 resources:
   Resources:
